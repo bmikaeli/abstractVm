@@ -6,9 +6,9 @@ OBJ = $(SRC:.cpp=.o)
 FLAG = -Wall -Werror -Wextra
 all : $(NAME)
 $(NAME) : $(OBJ)
-	clang++ $(FLAG) $(OBJ) -o $(NAME)
+	g++ $(FLAG) $(OBJ) -o $(NAME)
 %.o: %.cpp
-	clang++ $(FLAG) -c $^
+	g++ $(FLAG) -c $^
 clean :
 	rm -f $(OBJ)
 fclean : clean
