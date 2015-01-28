@@ -22,26 +22,39 @@ Comands::Comands() {
 Comands::~Comands() {
 }
 
+#include <string>
+//#include <ostream>
+#include <sstream>
+
 void Comands::exec_add() {
+
     int size = this->container.size();
+
     if (size < 2) {
         throw std::exception();
     }
-//    const IOperand *tmp1 = this->container[size];
-//    const IOperand *tmp2 = this->container[size - 1];
 
-    this->container.pop_back();
-    this->container.pop_back();
-//    this->container.push_back(tmp1 + tmp2);
+    std::vector<const IOperand *>::iterator it0;
+    std::vector<const IOperand *>::iterator it1;
+
+    it1 = this->container.end();
+    it1--;
+    it0 = it1;
+    it0--;
+
+
+    double result;
+    result = atof((*it0)->toString().data()) + atof((*it1)->toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    this->container.push_back(createDouble(s));
+    this->container.erase(this->container.begin());
+    this->container.erase(this->container.begin());
 }
 
-void Comands::exec_dump() {
-    std::vector<const IOperand *>::iterator it;
-
-    for (it = this->container.begin(); it != this->container.end(); ++it) {
-        std::cout << *it << std::endl;
-    }
-}
 
 IOperand const *Comands::createFloat(const std::string &value) const {
     const OpFloat *ret = new OpFloat(value);
@@ -66,6 +79,14 @@ IOperand const *Comands::createInt16(const std::string &value) const {
 IOperand const *Comands::createInt32(const std::string &value) const {
     const OpInt32 *ret = new OpInt32(value);
     return ret;
+}
+
+void Comands::exec_dump() {
+    std::cout << "dump => " << std::endl;
+    std::vector<const IOperand *>::iterator it;
+    for (it = this->container.begin(); it != this->container.end(); ++it) {
+        std::cout << (*it)->toString() << std::endl;
+    }
 }
 
 IOperand const *Comands::createOperand(eOperandType type, std::string const &value) const {
