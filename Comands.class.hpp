@@ -6,11 +6,11 @@
 #include <vector>
 #include <stdlib.h>
 #include <string.h>
-#include "Int16.class.hpp"
-#include "Int8.class.hpp"
-#include "Int32.class.hpp"
-#include "Float.class.hpp"
-#include "Double.class.hpp"
+#include "OpInt16.class.hpp"
+#include "OpInt8.class.hpp"
+#include "OpInt32.class.hpp"
+#include "OpFloat.class.hpp"
+#include "OpDouble.class.hpp"
 
 class Comands {
 

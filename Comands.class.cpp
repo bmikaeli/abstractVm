@@ -43,22 +43,30 @@ void Comands::exec_dump() {
     }
 }
 
-//IOperand const *Comands::createFloat(const std::string &value) const {
-//    return new Float();
-//}
+IOperand const *Comands::createFloat(const std::string &value) const {
+    const OpFloat *ret = new OpFloat(value);
+    return ret;
+}
 
-//IOperand const *Comands::createInt8(const std::string &value) const {
-//    Int8 * ret = NULL;
-//    (void)value;
-//  ret = new Int8(value);
-//    return ret;
-//}
-//
-//IOperand const *Comands::createInt16(const std::string &value) const {
-//}
-//
-//IOperand const *Comands::createInt32(const std::string &value) const {
-//}
+IOperand const *Comands::createDouble(const std::string &value) const {
+    const OpDouble *ret = new OpDouble(value);
+    return ret;
+}
+
+IOperand const *Comands::createInt8(const std::string &value) const {
+    const OpInt8 *ret = new OpInt8(value);
+    return ret;
+}
+
+IOperand const *Comands::createInt16(const std::string &value) const {
+    const OpInt16 *ret = new OpInt16(value);
+    return ret;
+}
+
+IOperand const *Comands::createInt32(const std::string &value) const {
+    const OpInt32 *ret = new OpInt32(value);
+    return ret;
+}
 
 IOperand const *Comands::createOperand(eOperandType type, std::string const &value) const {
     if (type == Int8) {

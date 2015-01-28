@@ -4,12 +4,10 @@
 int main() {
     Comands cmd;
     for (std::string line; std::getline(std::cin, line);) {
-        try
-        {
+        try {
             cmd.parse(line);
         }
-        catch(std::exception & e)
-        {
+        catch (std::exception &e) {
             std::cout << e.what() << std::endl;
             exit(1);
         }

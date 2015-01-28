@@ -2,6 +2,7 @@
 #define IOPERAND_H
 
 #include <iostream>
+
 enum eOperandType {
     Int8,
     Int16,
@@ -13,7 +14,6 @@ enum eOperandType {
 class IOperand {
 
 public:
-
 
     virtual int getPrecision(void) const = 0;
 

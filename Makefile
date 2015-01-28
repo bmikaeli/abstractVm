@@ -1,6 +1,11 @@
 NAME = avm
 SRC = main.cpp\
-    Comands.class.cpp
+    Comands.class.cpp\
+    OpInt8.class.cpp\
+    OpInt16.class.cpp\
+    OpInt32.class.cpp\
+    OpFloat.class.cpp\
+    OpDouble.class.cpp\
 
 OBJ = $(SRC:.cpp=.o)
 FLAG = -Wall -Werror -Wextra
