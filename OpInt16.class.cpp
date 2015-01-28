@@ -2,7 +2,7 @@
 
 OpInt16::OpInt16(std::string value) {
     this->value = value;
-    this->type = Int8;
+    this->type = Int16;
 }
 OpInt16::~OpInt16() {
 }

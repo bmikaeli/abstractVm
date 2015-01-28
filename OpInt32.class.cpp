@@ -2,7 +2,7 @@
 
 OpInt32::OpInt32(std::string value) {
     this->value = value;
-    this->type = Int8;
+    this->type = Int32;
 }
 OpInt32::~OpInt32() {
 }

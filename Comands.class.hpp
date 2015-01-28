@@ -11,6 +11,7 @@
 #include "OpInt32.class.hpp"
 #include "OpFloat.class.hpp"
 #include "OpDouble.class.hpp"
+#include "CustomError.class.hpp"
 
 class Comands {
 
@@ -23,7 +24,17 @@ public:
 
     void exec_add();
 
+    void exec_sub();
+
+    void exec_mod();
+
+    void exec_div();
+
+    void exec_mul();
+
     void exec_push(std::string input);
+
+    void exec_assert(std::string input);
 
     void exec_dump();
 

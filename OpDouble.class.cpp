@@ -2,7 +2,7 @@
 
 OpDouble::OpDouble(std::string value) {
     this->value = value;
-    this->type = Int8;
+    this->type = Double;
 }
 OpDouble::~OpDouble() {
 }
