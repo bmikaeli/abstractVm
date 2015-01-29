@@ -22,9 +22,17 @@ Comands::Comands() {
 Comands::~Comands() {
 }
 
-#include <string>
-//#include <ostream>
-#include <sstream>
+bool isNumeric(const std::string &input) {
+    for (unsigned int i = 0; i < input.size(); i++) {
+        if (isdigit(input[i]))
+            continue;
+        else if (input[i] == '.')
+            continue;
+        else
+            return false;
+    }
+    return true;
+}
 
 void Comands::exec_add() {
 
@@ -34,24 +42,17 @@ void Comands::exec_add() {
         throw CustomError::NotEnoughOperand();
     }
 
-    std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
+    std::vector<const IOperand *>::iterator it2;
 
-    it1 = this->container.end();
-    it1--;
-    it0 = it1;
-    it0--;
+    it1 = this->container.begin();
+    it2 = it1;
+    it2++;
 
-    double result;
-    result = atof((*it0)->toString().data()) + atof((*it1)->toString().data());
-
-    std::ostringstream ss;
-    ss << result;
-    std::string s(ss.str());
-
-    this->container.push_back(createDouble(s));
+    IOperand const *e = **it1 + **it2;
     this->container.erase(this->container.begin());
     this->container.erase(this->container.begin());
+    this->container.insert(this->container.begin(), e);
 }
 
 void Comands::exec_sub() {
@@ -65,10 +66,9 @@ void Comands::exec_sub() {
     std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
 
-    it1 = this->container.end();
-    it1--;
+    it1 = this->container.begin();
     it0 = it1;
-    it0--;
+    it0++;
 
     double result;
     result = atof((*it0)->toString().data()) - atof((*it1)->toString().data());
@@ -77,9 +77,13 @@ void Comands::exec_sub() {
     ss << result;
     std::string s(ss.str());
 
-    this->container.push_back(createDouble(s));
-    this->container.erase(this->container.begin());
-    this->container.erase(this->container.begin());
+    it1 = this->container.begin();
+
+    this->container.erase(it1);
+    it1 = this->container.begin();
+    this->container.erase(it1);
+
+    this->container.insert(this->container.begin(), createDouble(s));
 }
 
 void Comands::exec_mul() {
@@ -93,10 +97,9 @@ void Comands::exec_mul() {
     std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
 
-    it1 = this->container.end();
-    it1--;
+    it1 = this->container.begin();
     it0 = it1;
-    it0--;
+    it0++;
 
     double result;
     result = atof((*it0)->toString().data()) * atof((*it1)->toString().data());
@@ -105,10 +108,15 @@ void Comands::exec_mul() {
     ss << result;
     std::string s(ss.str());
 
-    this->container.push_back(createDouble(s));
-    this->container.erase(this->container.begin());
-    this->container.erase(this->container.begin());
+    it1 = this->container.begin();
+
+    this->container.erase(it1);
+    it1 = this->container.begin();
+    this->container.erase(it1);
+
+    this->container.insert(this->container.begin(), createDouble(s));
 }
+
 void Comands::exec_div() {
 
     int size = this->container.size();
@@ -120,50 +128,50 @@ void Comands::exec_div() {
     std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
 
-    it1 = this->container.end();
-    it1--;
+    it1 = this->container.begin();
     it0 = it1;
-    it0--;
+    it0++;
 
     double result;
-    result = atof((*it0)->toString().data()) / atof((*it1)->toString().data());
+    double divider = atof((*it1)->toString().data());
+    if (divider == 0) {
+        throw CustomError::DivisionByZero();
+    }
+    result = atof((*it0)->toString().data()) / divider;
 
     std::ostringstream ss;
     ss << result;
     std::string s(ss.str());
 
-    this->container.push_back(createDouble(s));
-    this->container.erase(this->container.begin());
-    this->container.erase(this->container.begin());
+    it1 = this->container.begin();
+
+    this->container.erase(it1);
+    it1 = this->container.begin();
+    this->container.erase(it1);
+
+    this->container.insert(this->container.begin(), createDouble(s));
 }
 
-//void Comands::exec_mod() {
-//
-//    int size = this->container.size();
-//
-//    if (size < 2) {
-//        throw CustomError::NotEnoughOperand();
-//    }
-//
-//    std::vector<const IOperand *>::iterator it0;
-//    std::vector<const IOperand *>::iterator it1;
-//
-//    it1 = this->container.end();
-//    it1--;
-//    it0 = it1;
-//    it0--;
-//
-//    double result;
-//    result = atof((*it0)->toString().data()) % atof((*it1)->toString().data());
-//
-//    std::ostringstream ss;
-//    ss << result;
-//    std::string s(ss.str());
-//
-//    this->container.push_back(createDouble(s));
-//    this->container.erase(this->container.begin());
-//    this->container.erase(this->container.begin());
-//}
+void Comands::exec_mod() {
+
+    int size = this->container.size();
+
+    if (size < 2) {
+        throw CustomError::NotEnoughOperand();
+    }
+
+    std::vector<const IOperand *>::iterator it1;
+    std::vector<const IOperand *>::iterator it2;
+
+    it1 = this->container.begin();
+    it2 = it1;
+    it2++;
+
+    IOperand const *e = **it1 % **it2;
+    this->container.erase(this->container.begin());
+    this->container.erase(this->container.begin());
+    this->container.insert(this->container.begin(), e);
+}
 
 
 IOperand const *Comands::createFloat(const std::string &value) const {
@@ -177,48 +185,74 @@ IOperand const *Comands::createDouble(const std::string &value) const {
 }
 
 IOperand const *Comands::createInt8(const std::string &value) const {
-    const OpInt8 *ret = new OpInt8(value);
-    return ret;
+    if (atoi(value.data()) > 127) {
+        throw CustomError::OverFlow();
+    }
+    else if (atoi(value.data()) < -128) {
+        throw CustomError::UnderFlow();
+    }
+    else {
+        const OpInt8 *ret = new OpInt8(value);
+        return ret;
+    }
 }
 
 IOperand const *Comands::createInt16(const std::string &value) const {
+    if (atoi(value.data()) > 32767) {
+        throw CustomError::OverFlow();
+    }
+    if (atoi(value.data()) < -32768) {
+        throw CustomError::UnderFlow();
+    }
     const OpInt16 *ret = new OpInt16(value);
     return ret;
 }
 
 IOperand const *Comands::createInt32(const std::string &value) const {
+    if (atoi(value.data()) >= 2147483647) {
+        throw CustomError::OverFlow();
+    }
+    if (atoi(value.data()) <= -2147483648) {
+        throw CustomError::UnderFlow();
+    }
     const OpInt32 *ret = new OpInt32(value);
     return ret;
 }
 
-void Comands::exec_dump() {
+
+void Comands::exec_dump() const {
+    std::vector<const IOperand *> tmp = this->container;
+
     std::vector<const IOperand *>::iterator it;
-    for (it = this->container.begin(); it != this->container.end(); ++it) {
+    for (it = tmp.begin(); it != tmp.end(); ++it) {
         std::cout << (*it)->toString() << std::endl;
     }
 }
 
 IOperand const *Comands::createOperand(eOperandType type, std::string const &value) const {
-    if (type == Int8) {
-        return this->createInt8(value);
+    if (isNumeric(value)) {
+        if (type == Int8) {
+            return this->createInt8(value);
+        }
+        if (type == Int16) {
+            return this->createInt16(value);
+        }
+        if (type == Int32) {
+            return this->createInt32(value);
+        }
+        if (type == Float) {
+            return this->createFloat(value);
+        }
+        if (type == Double) {
+            return this->createDouble(value);
+        }
+        throw CustomError::UnknowOperand();
     }
-    if (type == Int16) {
-        return this->createInt16(value);
-
+    else {
+        throw CustomError::NotNum();
     }
-    if (type == Int32) {
-        return this->createInt32(value);
-
-    }
-    if (type == Float) {
-        return this->createFloat(value);
-
-    }
-    if (type == Double) {
-        return this->createDouble(value);
-    }
-    throw CustomError::UnknowOperand();
     return this->createDouble(value);
+
 }
 
 void Comands::exec_push(std::string input) {
@@ -231,13 +265,13 @@ void Comands::exec_push(std::string input) {
     std::string type = sp[0];
     const IOperand *to_add;
     if (type == "int8") {
-        to_add = this->createOperand(Int32, nb);
-    }
-    else if (type == "int16") {
         to_add = this->createOperand(Int8, nb);
     }
-    else if (type == "int32") {
+    else if (type == "int16") {
         to_add = this->createOperand(Int16, nb);
+    }
+    else if (type == "int32") {
+        to_add = this->createOperand(Int32, nb);
     }
     else if (type == "double") {
         to_add = this->createOperand(Double, nb);
@@ -248,8 +282,18 @@ void Comands::exec_push(std::string input) {
     else {
         throw CustomError::UnknowOperand();
     }
-    this->container.push_back(to_add);
+    this->container.insert(this->container.begin(), to_add);
 
+}
+
+void Comands::exec_print() const {
+    if (this->container[0]->getPrecision() != Int8) {
+        throw CustomError::NonPrintable();
+    }
+    else {
+        char c = atoi(this->container[0]->toString().data());
+        std::cout << c << std::endl;
+    }
 }
 
 void Comands::exec_pop() {
@@ -293,32 +337,52 @@ void Comands::parse(std::string input) {
 
     sp = split(input, " ");
 
-    if (input == "exit")
-        exit(1);
-    else if (input == "add") {
-        exec_add();
+    if (!sp.empty()) {
+        if (sp[0][0] != ';') {
+            if (input == "exit")
+                exit(1);
+            else if (input == "add") {
+                exec_add();
+            }
+            else if (input == "sub") {
+                exec_sub();
+            }
+            else if (input == "mul") {
+                exec_mul();
+            }
+            else if (input == "div") {
+                exec_div();
+            }
+            else if (input == "mod") {
+                exec_add();
+            }
+            else if (input == "print") {
+                exec_print();
+            }
+            else if (sp[0] == "push") {
+                if (sp.size() == 2)
+                    exec_push(sp[1]);
+                else
+                    throw CustomError::WrongPush();
+            }
+            else if (input == "dump")
+                exec_dump();
+            else if (input == "pop")
+                exec_pop();
+            else if (sp[0] == "assert") {
+                if (sp.size() == 2)
+                    exec_assert(sp[1]);
+                else
+                    throw CustomError::WrongAssertInstruction();
+            }
+            else
+                std::cout << "unknown cmd" << std::endl;
+
+        }
     }
-    else if (input == "sub") {
-        exec_sub();
+    else {
+        throw CustomError::EmptyInput();
     }
-    else if (input == "mul") {
-        exec_mul();
-    }
-    else if (input == "div") {
-        exec_div();
-    }
-    else if (input == "mod") {
-        exec_add();
-    }
-    else if (sp[0] == "push") {
-        exec_push(sp[1]);
-    }
-    else if (input == "dump")
-        exec_dump();
-    else if (input == "pop")
-        exec_pop();
-    else if (sp[0] == "assert")
-        exec_assert(sp[1]);
-    else
-        std::cout << "unknown cmd" << std::endl;
+
+
 }

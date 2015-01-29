@@ -2,15 +2,19 @@
 #define COMAND_CLASS_HPP
 
 #include "IOperand.class.hpp"
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
+#include <sstream>
 #include "OpInt16.class.hpp"
 #include "OpInt8.class.hpp"
 #include "OpInt32.class.hpp"
 #include "OpFloat.class.hpp"
 #include "OpDouble.class.hpp"
+
 #include "CustomError.class.hpp"
 
 class Comands {
@@ -32,16 +36,19 @@ public:
 
     void exec_mul();
 
+    void exec_print() const;
+
     void exec_push(std::string input);
 
     void exec_assert(std::string input);
 
-    void exec_dump();
+    void exec_dump() const;
 
     void exec_pop();
 
-private:
     IOperand const *createOperand(eOperandType type, std::string const &value) const;
+
+private:
 
     IOperand const *createInt8(std::string const &value) const;
 

@@ -2,6 +2,14 @@
 #define IOPERAND_H
 
 #include <iostream>
+#include <cstdlib>
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <sstream>
 
 enum eOperandType {
     Int8,
@@ -36,5 +44,6 @@ public:
     virtual~IOperand(void) {
     }
 };
-
+#else
+class IOperand;
 #endif
