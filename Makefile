@@ -8,7 +8,7 @@ SRC = main.cpp\
     OpDouble.class.cpp\
 
 OBJ = $(SRC:.cpp=.o)
-FLAG = -Wall -Werror -Wextra -g
+FLAG = -Wall -Werror -Wextra
 all : $(NAME)
 $(NAME) : $(OBJ)
 	g++ $(FLAG) $(OBJ) -o $(NAME)

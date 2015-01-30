@@ -36,6 +36,14 @@ bool isNumeric(const std::string &input) {
     return true;
 }
 
+bool isFloat(const std::string &input) {
+    for (unsigned int i = 0; i < input.size(); i++) {
+        if (input[i] == '.')
+            return true;
+    }
+    return false;
+}
+
 void Comands::exec_add() {
 
     int size = this->container.size();
@@ -106,13 +114,17 @@ void Comands::exec_div() {
     if (size < 2) {
         throw CustomError::NotEnoughOperand();
     }
-
-    std::vector<const IOperand *>::iterator it1;
     std::vector<const IOperand *>::iterator it2;
+    std::vector<const IOperand *>::iterator it1;
 
     it1 = this->container.begin();
     it2 = it1;
     it2++;
+
+    if(atof(this->container[1]->toString().data()) == 0)
+    {
+        throw CustomError::DivisionByZero();
+    }
 
     IOperand const *e = **it1 / **it2;
     this->container.erase(this->container.begin());
@@ -135,6 +147,10 @@ void Comands::exec_mod() {
     it2 = it1;
     it2++;
 
+    if(atof(this->container[1]->toString().data()) == 0)
+    {
+        throw CustomError::DivisionByZero();
+    }
     IOperand const *e = **it1 % **it2;
     this->container.erase(this->container.begin());
     this->container.erase(this->container.begin());
@@ -198,7 +214,9 @@ void Comands::exec_dump() const {
 }
 
 IOperand const *Comands::createOperand(eOperandType type, std::string const &value) const {
+
     if (isNumeric(value)) {
+
         if (type == Int8) {
             return this->createInt8(value);
         }
@@ -212,15 +230,12 @@ IOperand const *Comands::createOperand(eOperandType type, std::string const &val
             return this->createFloat(value);
         }
         if (type == Double) {
-            return this->createDouble(value);
         }
         throw CustomError::UnknowOperand();
     }
     else {
         throw CustomError::NotNum();
     }
-    return this->createDouble(value);
-
 }
 
 void Comands::exec_push(std::string input) {
@@ -232,14 +247,30 @@ void Comands::exec_push(std::string input) {
 
     std::string type = sp[0];
     const IOperand *to_add;
+
     if (type == "int8") {
-        to_add = this->createOperand(Int8, nb);
+        if(!isFloat(nb))
+        {
+            to_add = this->createOperand(Int8, nb);
+        }
+        else
+            throw CustomError::FloatingInt();
     }
     else if (type == "int16") {
-        to_add = this->createOperand(Int16, nb);
+        if(!isFloat(nb))
+        {
+            to_add = this->createOperand(Int16, nb);
+        }
+        else
+            throw CustomError::FloatingInt();
     }
     else if (type == "int32") {
-        to_add = this->createOperand(Int32, nb);
+        if(!isFloat(nb))
+        {
+            to_add = this->createOperand(Int32, nb);
+        }
+        else
+            throw CustomError::FloatingInt();
     }
     else if (type == "double") {
         to_add = this->createOperand(Double, nb);
@@ -272,32 +303,62 @@ void Comands::exec_pop() {
 }
 
 void Comands::exec_assert(std::string input) {
-    std::vector <std::string> sp;
+    if (!this->container.empty()) {
+        std::vector <std::string> sp;
 
-    sp = split(input, "(");
+        sp = split(input, "(");
 
-    std::string nb = split(sp[1], ")")[0].data();
+        std::string nb = split(sp[1], ")")[0].data();
 
-    std::string type = sp[0];
+        std::string type = sp[0];
 
-    std::vector<const IOperand *>::iterator ite;
-    ite = this->container.end();
-    ite--;
+        std::vector<const IOperand *>::iterator ite;
+        ite = this->container.begin();
 
-    if (type == "int8" && (*ite)->getType() == 0) {
-    }
-    else if (type == "int16" && (*ite)->getType() == 1) {
-    }
-    else if (type == "int32" && (*ite)->getType() == 2) {
-    }
-    else if (type == "float" && (*ite)->getType() == 3) {
-    }
-    else if (type == "double" && (*ite)->getType() == 4) {
-    }
-    else {
-        throw CustomError::UnknowOperand();
-    }
+        if (type == "int8" && (*ite)->getType() == Int8) {
+            if (!(nb == (*ite)->toString()))
+                throw CustomError::WrongAssert();
+        }
+        else if (type == "int16" && (*ite)->getType() == Int16) {
+            if (!(nb == (*ite)->toString()))
+                throw CustomError::WrongAssert();
+        }
+        else if (type == "int32" && (*ite)->getType() == Int32) {
+            if (!(nb == (*ite)->toString()))
+                throw CustomError::WrongAssert();
+        }
+        else if (type == "float" && (*ite)->getType() == Float) {
+            if (!(nb == (*ite)->toString()))
+                throw CustomError::WrongAssert();
+        }
+        else if (type == "double" && (*ite)->getType() == Double) {
+            if (!(nb == (*ite)->toString()))
+                throw CustomError::WrongAssert();
+        }
+        else {
+            throw CustomError::WrongAssertInstruction();
+        }
+    } else
+        throw CustomError::EmptyStack();
+}
 
+IOperand const *Comands::createInt8Bis(std::string input) {
+    return this->createInt8(input);
+}
+
+IOperand const *Comands::createInt16Bis(std::string input) {
+    return this->createInt16(input);
+}
+
+IOperand const *Comands::createInt32Bis(std::string input) {
+    return this->createInt32(input);
+}
+
+IOperand const* Comands::createFloatBis(std::string input) {
+    return this->createFloat(input);
+}
+IOperand const *Comands::createDoubleBis(std::string input) {
+    return this->createDouble(input);
 }
 
 void Comands::parse(std::string input) {
@@ -345,7 +406,6 @@ void Comands::parse(std::string input) {
             }
             else
                 std::cout << "unknown cmd" << std::endl;
-
         }
     }
     else {

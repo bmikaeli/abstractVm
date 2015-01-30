@@ -18,6 +18,7 @@
 
 #include "CustomError.class.hpp"
 
+
 class Comands {
 
 public:
@@ -60,6 +61,16 @@ private:
     IOperand const *createFloat(std::string const &value) const;
 
     IOperand const *createDouble(std::string const &value) const;
+
+    IOperand const *createInt8Bis(std::string value);
+
+    IOperand const *createInt16Bis(std::string value);
+
+    IOperand const *createInt32Bis(std::string value);
+
+    IOperand const *createFloatBis(std::string value);
+
+    IOperand const *createDoubleBis(std::string value);
 
     std::vector<const IOperand *> container;
 };

@@ -27,8 +27,6 @@ public:
 
     virtual eOperandType getType(void) const = 0;
 
-    IOperand const *createOperand(eOperandType type, std::string const &value) const;
-
     virtual IOperand const *operator+(IOperand const &rhs) const = 0;
 
     virtual IOperand const *operator-(IOperand const &rhs) const = 0;

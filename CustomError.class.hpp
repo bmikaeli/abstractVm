@@ -76,6 +76,11 @@ public:
             return "The element at the top of the stack isn't a 8-Bits integer.";
         }
     };
+    class FloatingInt : public std::exception {
+        virtual const char *what() const throw() {
+            return "A integer value cannot takes floating data.";
+        }
+    };
 };
 
 #endif
