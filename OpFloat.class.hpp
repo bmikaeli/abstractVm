@@ -1,7 +1,8 @@
-#ifndef FOAT_CLASS_HPP
+#ifndef FLOAT_CLASS_HPP
 #define FLOAT_CLASS_HPP
 
 #include "IOperand.class.hpp"
+#include "Comands.class.hpp"
 
 class OpFloat : public IOperand {
 public :

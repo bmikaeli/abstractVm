@@ -2,6 +2,7 @@
 #define INT8_CLASS_HPP
 
 #include "IOperand.class.hpp"
+#include "Comands.class.hpp"
 
 class OpInt8 : public IOperand {
 public:

@@ -21,26 +21,81 @@ std::string const &OpDouble::toString() const {
 }
 
 IOperand const *OpDouble::operator+(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atof(this->toString().data()) + atof(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpDouble::operator%(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = fmod(atof(this->toString().data()), atof(rhs.toString().data()));
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpDouble::operator*(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atof(this->toString().data()) * atof(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpDouble::operator-(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atof(this->toString().data()) - atof(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpDouble::operator/(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atof(this->toString().data()) / atof(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }

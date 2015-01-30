@@ -64,11 +64,13 @@ public:
             return "the input doesn't only contain digits";
         }
     };
+
     class DivisionByZero : public std::exception {
         virtual const char *what() const throw() {
             return "Divider is equal to 0.";
         }
     };
+
     class NonPrintable : public std::exception {
         virtual const char *what() const throw() {
             return "The element at the top of the stack isn't a 8-Bits integer.";

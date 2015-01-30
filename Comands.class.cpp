@@ -28,6 +28,8 @@ bool isNumeric(const std::string &input) {
             continue;
         else if (input[i] == '.')
             continue;
+        else if (input[i] == '-')
+            continue;
         else
             return false;
     }
@@ -63,27 +65,17 @@ void Comands::exec_sub() {
         throw CustomError::NotEnoughOperand();
     }
 
-    std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
+    std::vector<const IOperand *>::iterator it2;
 
     it1 = this->container.begin();
-    it0 = it1;
-    it0++;
+    it2 = it1;
+    it2++;
 
-    double result;
-    result = atof((*it0)->toString().data()) - atof((*it1)->toString().data());
-
-    std::ostringstream ss;
-    ss << result;
-    std::string s(ss.str());
-
-    it1 = this->container.begin();
-
-    this->container.erase(it1);
-    it1 = this->container.begin();
-    this->container.erase(it1);
-
-    this->container.insert(this->container.begin(), createDouble(s));
+    IOperand const *e = **it1 - **it2;
+    this->container.erase(this->container.begin());
+    this->container.erase(this->container.begin());
+    this->container.insert(this->container.begin(), e);
 }
 
 void Comands::exec_mul() {
@@ -94,27 +86,17 @@ void Comands::exec_mul() {
         throw CustomError::NotEnoughOperand();
     }
 
-    std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
+    std::vector<const IOperand *>::iterator it2;
 
     it1 = this->container.begin();
-    it0 = it1;
-    it0++;
+    it2 = it1;
+    it2++;
 
-    double result;
-    result = atof((*it0)->toString().data()) * atof((*it1)->toString().data());
-
-    std::ostringstream ss;
-    ss << result;
-    std::string s(ss.str());
-
-    it1 = this->container.begin();
-
-    this->container.erase(it1);
-    it1 = this->container.begin();
-    this->container.erase(it1);
-
-    this->container.insert(this->container.begin(), createDouble(s));
+    IOperand const *e = **it1 * **it2;
+    this->container.erase(this->container.begin());
+    this->container.erase(this->container.begin());
+    this->container.insert(this->container.begin(), e);
 }
 
 void Comands::exec_div() {
@@ -125,31 +107,17 @@ void Comands::exec_div() {
         throw CustomError::NotEnoughOperand();
     }
 
-    std::vector<const IOperand *>::iterator it0;
     std::vector<const IOperand *>::iterator it1;
+    std::vector<const IOperand *>::iterator it2;
 
     it1 = this->container.begin();
-    it0 = it1;
-    it0++;
+    it2 = it1;
+    it2++;
 
-    double result;
-    double divider = atof((*it1)->toString().data());
-    if (divider == 0) {
-        throw CustomError::DivisionByZero();
-    }
-    result = atof((*it0)->toString().data()) / divider;
-
-    std::ostringstream ss;
-    ss << result;
-    std::string s(ss.str());
-
-    it1 = this->container.begin();
-
-    this->container.erase(it1);
-    it1 = this->container.begin();
-    this->container.erase(it1);
-
-    this->container.insert(this->container.begin(), createDouble(s));
+    IOperand const *e = **it1 / **it2;
+    this->container.erase(this->container.begin());
+    this->container.erase(this->container.begin());
+    this->container.insert(this->container.begin(), e);
 }
 
 void Comands::exec_mod() {
@@ -185,10 +153,10 @@ IOperand const *Comands::createDouble(const std::string &value) const {
 }
 
 IOperand const *Comands::createInt8(const std::string &value) const {
-    if (atoi(value.data()) > 127) {
+    if (atof(value.data()) > 127) {
         throw CustomError::OverFlow();
     }
-    else if (atoi(value.data()) < -128) {
+    else if (atof(value.data()) < -128) {
         throw CustomError::UnderFlow();
     }
     else {
@@ -198,10 +166,10 @@ IOperand const *Comands::createInt8(const std::string &value) const {
 }
 
 IOperand const *Comands::createInt16(const std::string &value) const {
-    if (atoi(value.data()) > 32767) {
+    if (atof(value.data()) > 32767) {
         throw CustomError::OverFlow();
     }
-    if (atoi(value.data()) < -32768) {
+    if (atof(value.data()) < -32768) {
         throw CustomError::UnderFlow();
     }
     const OpInt16 *ret = new OpInt16(value);
@@ -209,10 +177,10 @@ IOperand const *Comands::createInt16(const std::string &value) const {
 }
 
 IOperand const *Comands::createInt32(const std::string &value) const {
-    if (atoi(value.data()) >= 2147483647) {
+    if (atof(value.data()) >= 2147483647) {
         throw CustomError::OverFlow();
     }
-    if (atoi(value.data()) <= -2147483648) {
+    if (atof(value.data()) <= -2147483648) {
         throw CustomError::UnderFlow();
     }
     const OpInt32 *ret = new OpInt32(value);
@@ -354,7 +322,7 @@ void Comands::parse(std::string input) {
                 exec_div();
             }
             else if (input == "mod") {
-                exec_add();
+                exec_mod();
             }
             else if (input == "print") {
                 exec_print();

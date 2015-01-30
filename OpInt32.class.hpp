@@ -2,6 +2,7 @@
 #define INT32_CLASS_HPP
 
 #include "IOperand.class.hpp"
+#include "Comands.class.hpp"
 
 class OpInt32 : public IOperand {
 public:

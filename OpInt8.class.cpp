@@ -21,33 +21,83 @@ std::string const &OpInt8::toString() const {
 }
 
 IOperand const *OpInt8::operator+(IOperand const &rhs) const {
+    Comands *cmd = new Comands();
 
-    double result;
-    result = atof(this->toString().data()) + atof(rhs.toString().data());
+    double result = atoi(this->toString().data()) + atoi(rhs.toString().data());
 
     std::ostringstream ss;
     ss << result;
     std::string s(ss.str());
 
-    return this;
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
+
 }
 
 IOperand const *OpInt8::operator%(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+
+    Comands *cmd = new Comands();
+
+    double result;
+    result = fmod(atoi(this->toString().data()), atoi(rhs.toString().data()));
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt8::operator*(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+
+    Comands *cmd = new Comands();
+
+    double result = atoi(this->toString().data()) * atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt8::operator-(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+
+    Comands *cmd = new Comands();
+
+    double result = atoi(this->toString().data()) - atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt8::operator/(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+
+
+    Comands *cmd = new Comands();
+
+    double result = atoi(this->toString().data()) / atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }

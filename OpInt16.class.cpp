@@ -21,26 +21,82 @@ std::string const &OpInt16::toString() const {
 }
 
 IOperand const *OpInt16::operator+(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atoi(this->toString().data()) + atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt16::operator%(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = fmod(atoi(this->toString().data()), atoi(rhs.toString().data()));
+
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt16::operator*(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    int result;
+    result = atoi(this->toString().data()) * atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt16::operator-(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atoi(this->toString().data()) - atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }
 
 IOperand const *OpInt16::operator/(IOperand const &rhs) const {
-    (void) rhs;
-    return this;
+    Comands *cmd = new Comands();
+
+    double result;
+    result = atoi(this->toString().data()) / atoi(rhs.toString().data());
+
+    std::ostringstream ss;
+    ss << result;
+    std::string s(ss.str());
+
+    if (rhs.getPrecision() > this->getPrecision())
+        return cmd->createOperand(rhs.getType(), s);
+    else
+        return cmd->createOperand(this->getType(), s);
 }

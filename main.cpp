@@ -30,8 +30,7 @@ int main(int ac, char **av) {
                 exit(1);
             }
         }
-        if(i == 0)
-        {
+        if (i == 0) {
             std::cout << "The file is invalid or empty" << std::endl;
         }
     }

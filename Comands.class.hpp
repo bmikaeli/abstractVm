@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <string>
+#include <math.h>
 #include <sstream>
 #include "OpInt16.class.hpp"
 #include "OpInt8.class.hpp"

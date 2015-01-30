@@ -2,6 +2,7 @@
 #define DOUBLE_CLASS_HPP
 
 #include "IOperand.class.hpp"
+#include "Comands.class.hpp"
 
 class OpDouble : public IOperand {
 public:

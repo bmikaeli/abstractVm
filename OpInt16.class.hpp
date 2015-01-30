@@ -2,6 +2,7 @@
 #define INT16_CLASS_HPP
 
 #include "IOperand.class.hpp"
+#include "Comands.class.hpp"
 
 class OpInt16 : public IOperand {
 public:

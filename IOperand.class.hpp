@@ -44,6 +44,5 @@ public:
     virtual~IOperand(void) {
     }
 };
-#else
-class IOperand;
+
 #endif
